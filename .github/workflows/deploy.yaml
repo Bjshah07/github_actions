@@ -3,23 +3,23 @@ name: Deploy Node.js App
 on:
   push:
     branches:
-      -main
+      - main
 
 jobs:
   deploy:
-    runs-on: http://localhost:3000
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2 
+        uses: actions/checkout@v4
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{secrets.SSH_HOST}}
+          host: ${{ secrets.SSH_HOST }}
           username: root
-          key: ${{secrets.SSH_KEY}}
-          scripts: |
+          key: ${{ secrets.SSH_KEY }}
+          script: |
             cd /root/github-actions
             git pull
             docker compose up -d --build
